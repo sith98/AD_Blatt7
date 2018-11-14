@@ -21,14 +21,6 @@ class Tree<T extends Comparable<T>> {
     }
     
     
-    private static <T extends Comparable<T>> String testPrint(Node<T> node) {
-        if (node == null) {
-            return "n";
-        } else {
-            return "(" + testPrint(node.left) + "," + node.value + "," + testPrint(node.right) + ")";
-        }
-    }
-    
     private static <T extends Comparable<T>> void print(Node<T> node, StringBuilder builder) {
         if (node == null) {
             builder.append('n');
