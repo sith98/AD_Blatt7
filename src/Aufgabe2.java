@@ -20,6 +20,15 @@ class Tree<T extends Comparable<T>> {
         return builder.toString();
     }
     
+    
+    private static <T extends Comparable<T>> String testPrint(Node<T> node) {
+        if (node == null) {
+            return "n";
+        } else {
+            return "(" + testPrint(node.left) + "," + node.value + "," + testPrint(node.right) + ")";
+        }
+    }
+    
     private static <T extends Comparable<T>> void print(Node<T> node, StringBuilder builder) {
         if (node == null) {
             builder.append('n');
@@ -41,10 +50,12 @@ class Tree<T extends Comparable<T>> {
         int comparison = value.compareTo(root.value);
         if (comparison < 0) {
             root.left = delete(root.left, value);
+            root = checkRotateLeft(root);
             return root;
         }
         if (comparison > 0) {
             root.right = delete(root.right, value);
+            root = checkRotateRight(root);
             return root;
         }
         
@@ -61,7 +72,10 @@ class Tree<T extends Comparable<T>> {
         
         T min = getMin(root.right);
         root.value = min;
+        
+        
         root.right = delete(root.right, min);
+        root = checkRotateRight(root);
         
         return root;
     }
@@ -84,24 +98,47 @@ class Tree<T extends Comparable<T>> {
         int comparison = value.compareTo(root.value);
         if (comparison < 0) {
             root.left = insert(root.left, value);
+            root = checkRotateRight(root);
         } else if (comparison > 0) {
             root.right = insert(root.right, value);
+            root = checkRotateLeft(root);
         }
         return root;
     }
     
-    private static <T extends Comparable<T>> Node<T> rotateRight(Node<T> node) {
-        var newNode = node.right;
-        var temp = newNode.left;
-        newNode.left = node;
-        node.right = temp;
-        return newNode;
+    private static <T extends Comparable<T>> Node<T> checkRotateRight(Node<T> node) {
+        if (node == null || node.left == null || Node.getHeight(node.left) - Node.getHeight(node.right) < 2) {
+            Node.updateHeight(node);
+            return node;
+        }
+        if (Node.getHeight(node.left.right) > Node.getHeight(node.left.left)) {
+            node.left = rotateLeft(node.left);
+        }
+        return rotateRight(node);
     }
-    private static <T extends Comparable<T>> Node<T> rotateLeft(Node<T> node) {
+    private static <T extends Comparable<T>> Node<T> checkRotateLeft(Node<T> node) {
+        if (node == null || node.right == null || Node.getHeight(node.right) - Node.getHeight(node.left) < 2) {
+            Node.updateHeight(node);
+            return node;
+        }
+        if (Node.getHeight(node.right.left) > Node.getHeight(node.right.right)) {
+            node.right = rotateRight(node.right);
+        }
+        return rotateLeft(node);
+    }
+    
+    private static <T extends Comparable<T>> Node<T> rotateRight(Node<T> node) {
         var newNode = node.left;
         var temp = newNode.right;
         newNode.right = node;
         node.left = temp;
+        return newNode;
+    }
+    private static <T extends Comparable<T>> Node<T> rotateLeft(Node<T> node) {
+        var newNode = node.right;
+        var temp = newNode.left;
+        newNode.left = node;
+        node.right = temp;
         return newNode;
     }
 }
@@ -116,13 +153,13 @@ public class Aufgabe2 {
         
         for (int value : values) {
             tree.insert(value);
+            System.out.println(tree);
         }
-        System.out.println(tree);
         
         for (int value : valuesToDelete) {
             tree.delete(value);
+            System.out.println(tree);
         }
     
-        System.out.println(tree);
     }
 }
