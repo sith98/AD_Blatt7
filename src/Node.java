@@ -2,7 +2,7 @@ class Node<T extends Comparable<T>> {
     T value;
     Node<T> left;
     Node<T> right;
-    int height;
+    private int height;
     
     Node(T value) {
         this.value = value;
@@ -16,6 +16,14 @@ class Node<T extends Comparable<T>> {
     static void updateHeight(Node<?> node) {
         if (node != null) {
             node.height = 1 + Math.max(Node.getHeight(node.left), Node.getHeight(node.right));
+        }
+    }
+    
+    private static <T extends Comparable<T>> String toString(Node<T> node) {
+        if (node == null) {
+            return "n";
+        } else {
+            return "(" + toString(node.left) + "," + node.value + "," + toString(node.right) + ")";
         }
     }
     
