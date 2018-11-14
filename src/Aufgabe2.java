@@ -89,6 +89,21 @@ class Tree<T extends Comparable<T>> {
         }
         return root;
     }
+    
+    private static <T extends Comparable<T>> Node<T> rotateRight(Node<T> node) {
+        var newNode = node.right;
+        var temp = newNode.left;
+        newNode.left = node;
+        node.right = temp;
+        return newNode;
+    }
+    private static <T extends Comparable<T>> Node<T> rotateLeft(Node<T> node) {
+        var newNode = node.left;
+        var temp = newNode.right;
+        newNode.right = node;
+        node.left = temp;
+        return newNode;
+    }
 }
 
 
