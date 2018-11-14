@@ -1,5 +1,5 @@
 class Tree<T extends Comparable<T>> {
-    private Node<T> root;
+    Node<T> root;
     
     Tree() {
         root = null;
