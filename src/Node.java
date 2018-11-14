@@ -5,6 +5,7 @@ class Node<T extends Comparable<T>> {
     int height;
     
     Node(T value) {
+        this.value = value;
         height = 0;
     }
     
