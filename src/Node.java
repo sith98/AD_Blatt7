@@ -15,7 +15,7 @@ class Node<T extends Comparable<T>> {
     
     static void updateHeight(Node<?> node) {
         if (node != null) {
-            node.height = Math.max(Node.getHeight(node.left), Node.getHeight(node.right));
+            node.height = 1 + Math.max(Node.getHeight(node.left), Node.getHeight(node.right));
         }
     }
     
