@@ -1,5 +1,5 @@
 class Tree<T extends Comparable<T>> {
-    Node<T> root;
+    private Node<T> root;
     
     Tree() {
         root = null;
@@ -40,10 +40,12 @@ class Tree<T extends Comparable<T>> {
         }
         int comparison = value.compareTo(root.value);
         if (comparison < 0) {
-            return delete(root.left, value);
+            root.left = delete(root.left, value);
+            return root;
         }
         if (comparison > 0) {
-            return delete(root.right, value);
+            root.right = delete(root.right, value);
+            return root;
         }
         
         // found value
@@ -81,12 +83,11 @@ class Tree<T extends Comparable<T>> {
         }
         int comparison = value.compareTo(root.value);
         if (comparison < 0) {
-            return insert(root.left, value);
+            root.left = insert(root.left, value);
         } else if (comparison > 0) {
-            return insert(root.right, value);
-        } else {
-            return root;
+            root.right = insert(root.right, value);
         }
+        return root;
     }
 }
 
@@ -95,10 +96,16 @@ public class Aufgabe2 {
     public static void main(String[] args) {
         Tree<Integer> tree = new Tree<>();
         
-        int[] values = {6, 8, 7, 9, 3, 1};
-    
+        int[] values = {5, 6, 9, 12, 13, 3, 8, 10, 11, 16, 15, 14, 4, 2, 1};
+        int[] valuesToDelete = {12, 8, 5, 4, 3, 6, 15, 14};
+        
         for (int value : values) {
             tree.insert(value);
+        }
+        System.out.println(tree);
+        
+        for (int value : valuesToDelete) {
+            tree.delete(value);
         }
     
         System.out.println(tree);
