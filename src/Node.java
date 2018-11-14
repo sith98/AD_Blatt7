@@ -19,7 +19,7 @@ class Node<T extends Comparable<T>> {
         }
     }
     
-    private static <T extends Comparable<T>> String toString(Node<T> node) {
+    static <T extends Comparable<T>> String toString(Node<T> node) {
         if (node == null) {
             return "n";
         } else {
